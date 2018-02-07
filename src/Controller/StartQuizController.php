@@ -8,6 +8,8 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class StartQuizController
 {
+    use MoveUploadedFile;
+
     public function startQuiz(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $listOfLogos = $this->getListOfLogos();
@@ -19,6 +21,14 @@ class StartQuizController
         $response->getBody()->write(json_encode($listToReturn));
 
         return $response;
+    }
+
+    public function uploadDrawnImage(ServerRequestInterface $request, ResponseInterface $response)
+    {
+        $uploadedFiles = $request->getUploadedFiles();
+        $uploadedImage = $uploadedFiles['image'];
+
+        $uploadsDir = 
     }
 
     private function getListOfLogos(): array
