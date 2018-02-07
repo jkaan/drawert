@@ -1,0 +1,17 @@
+{
+    "name": "drawert/server",
+    "type": "project",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Joey Kaan",
+            "email": "jkaan@users.noreply.github.com"
+        }
+    ],
+    "autoload": {
+      "psr-4": {"Drawert\\": "src/"}
+    },
+    "require": {
+      "slim/slim": "^3.0"
+    }
+}
