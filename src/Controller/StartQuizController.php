@@ -10,6 +10,19 @@ class StartQuizController
 {
     public function startQuiz(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
+        $listOfLogos = $this->getListOfLogos();
+        $listOfNonLogos = $this->getListOfNonLogos();
+
+        $listToReturn = array_values(array_merge($listOfLogos, $listOfNonLogos));
+        shuffle($listToReturn);
+
+        $response->getBody()->write(json_encode($listToReturn));
+
+        return $response;
+    }
+
+    private function getListOfLogos(): array
+    {
         // Get random list of 3 logos
         $listOfLogos = [];
 
@@ -20,7 +33,11 @@ class StartQuizController
             $listOfLogos[] = $availableLogos[random_int(0, count($availableLogos) - 1)];
             $listOfLogos = array_unique($listOfLogos);
         }
+        return $listOfLogos;
+    }
 
+    private function getListOfNonLogos(): array
+    {
         // Get random list of 3 nonLogos
         $listOfNonLogos = [];
 
@@ -31,12 +48,6 @@ class StartQuizController
             $listOfNonLogos[] = $availableNonLogos[random_int(0, count($availableNonLogos) - 1)];
             $listOfNonLogos = array_unique($listOfNonLogos);
         }
-
-        $listToReturn = array_values(array_merge($listOfLogos, $listOfNonLogos));
-        shuffle($listToReturn);
-
-        $response->getBody()->write(json_encode($listToReturn));
-
-        return $response;
+        return $listOfNonLogos;
     }
 }
