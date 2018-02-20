@@ -18,6 +18,8 @@ class StartQuizController
         $listToReturn = array_values(array_merge($listOfLogos, $listOfNonLogos));
         shuffle($listToReturn);
 
+        $response = $response->withHeader('Access-Control-Allow-Origin', '*');
+
         $response->getBody()->write(json_encode($listToReturn));
 
         return $response;
@@ -27,6 +29,10 @@ class StartQuizController
     {
         $uploadedFiles = $request->getUploadedFiles();
         $uploadedImage = $uploadedFiles['image'];
+
+        $filename = $this->moveUploadedFile(__DIR__ . '/../../uploads', $uploadedImage);
+
+        var_dump($uploadedImage);
     }
 
     private function getListOfLogos(): array
