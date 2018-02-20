@@ -27,8 +27,6 @@ class StartQuizController
     {
         $uploadedFiles = $request->getUploadedFiles();
         $uploadedImage = $uploadedFiles['image'];
-
-        $uploadsDir = 
     }
 
     private function getListOfLogos(): array
