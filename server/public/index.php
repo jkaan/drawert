@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Drawert\Controller\StartQuizController;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 $app = new \Slim\App();
 
