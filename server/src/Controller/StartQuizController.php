@@ -34,7 +34,7 @@ class StartQuizController
         // Get random list of 3 logos
         $listOfLogos = [];
 
-        $availableLogos = require __DIR__ . '/../public/logos.php';
+        $availableLogos = require __DIR__ . '/../../public/logos.php';
 
         // Randomly select 5 names out of logos.php
         while (count($listOfLogos) < 3) {
@@ -49,7 +49,7 @@ class StartQuizController
         // Get random list of 3 nonLogos
         $listOfNonLogos = [];
 
-        $availableNonLogos = require __DIR__ . '/../public/nonLogos.php';
+        $availableNonLogos = require __DIR__ . '/../../public/nonLogos.php';
 
         // Randomly select 5 names out of logos.php
         while (count($listOfNonLogos) < 2) {
