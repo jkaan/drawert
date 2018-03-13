@@ -1,18 +1,26 @@
 {
-    "name": "drawert/server",
-    "type": "project",
-    "license": "proprietary",
-    "authors": [
-        {
-            "name": "Joey Kaan",
-            "email": "jkaan@users.noreply.github.com"
-        }
-    ],
-    "autoload": {
-      "psr-4": {"Drawert\\": "src/"}
-    },
-    "require": {
-      "slim/slim": "^3.0",
-        "ramsey/uuid": "^3.7"
+  "name": "drawert/server",
+  "type": "project",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Joey Kaan",
+      "email": "jkaan@users.noreply.github.com"
     }
+  ],
+  "scripts": {
+    "test": "./vendor/bin/phpunit --bootstrap vendor/autoload.php --testdox tests"
+  },
+  "autoload": {
+    "psr-4": {
+      "Drawert\\": "src/"
+    }
+  },
+  "require": {
+    "slim/slim": "^3.0",
+    "ramsey/uuid": "^3.7"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7"
+  }
 }
