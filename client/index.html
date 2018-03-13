@@ -4,6 +4,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>drawert</title>
         <link type="text/css" rel="stylesheet" href="style.css"/>
+        <script type="text/javascript" src="http://www.danielschneiders.com/InteractiveReader/js/JQuery.js"></script> <!-- JQuery Library -->  
+        <script type="text/javascript" src="navigation.js"></script> <!-- Navigation functions -->
     </head>
     <body>
     	<header>
@@ -12,7 +14,16 @@
         </header>
         <div id="wrapper">
         	<div id="toolbar">
-             ...
+             	<button class="draw_tool_icon" id="draw_tool_color_red">RED</button>
+                <button class="draw_tool_icon" id="draw_tool_color_blue">BLUE</button>
+                <button class="draw_tool_icon" id="draw_tool_color_green">GREEN</button>
+                <button class="draw_tool_icon" id="draw_tool_color_black">BLACK</button>
+                <button class="draw_tool_icon" id="draw_tool_color_pick">PICK</button>
+                <div id="color_pick_wrapper">
+        			<div class="iets">something</div>
+        		</div>
+                <button class="draw_tool_icon" id="draw_tool_color_clear">CLEAR</button>
+                <button class="draw_tool_icon" id="draw_tool_color_erease">EREASE</button>
             </div>
             <canvas>
             </canvas>
