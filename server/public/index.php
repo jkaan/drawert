@@ -7,7 +7,14 @@ use Psr\Http\Message\ResponseInterface;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$app = new \Slim\App();
+$configuration = [
+    'settings' => [
+        'displayErrorDetails' => true
+    ]
+];
+
+$container = new \Slim\Container($configuration);
+$app = new \Slim\App($container);
 
 $app->add(function(RequestInterface $request, ResponseInterface $response, callable $next) {
     $response = $next($request, $response);

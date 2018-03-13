@@ -5,6 +5,7 @@ namespace Drawert\Controller;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Ramsey\Uuid\Uuid;
 
 class StartQuizController
 {
@@ -17,8 +18,13 @@ class StartQuizController
 
         $listToReturn = array_values(array_merge($listOfLogos, $listOfNonLogos));
         shuffle($listToReturn);
-        
-        $response->getBody()->write(json_encode($listToReturn));
+
+        $response->getBody()->write(json_encode(
+            [
+                'logos' => $listToReturn,
+                'id' => Uuid::uuid4()->toString()
+            ]
+        ));
 
         return $response;
     }
@@ -28,7 +34,21 @@ class StartQuizController
         $uploadedFiles = $request->getUploadedFiles();
         $uploadedImage = $uploadedFiles['image'];
 
-        $filename = $this->moveUploadedFile(__DIR__ . '/../../uploads', $uploadedImage);
+        $queryParams = $request->getQueryParams();
+
+        if (array_key_exists('id', $queryParams) && Uuid::isValid($queryParams['id'])) {
+            $id = $queryParams['id'];
+
+            // Create directory if needed
+            if (!file_exists(__DIR__ . '/../../uploads/' . $id)
+                && !mkdir(__DIR__ . '/../../uploads/' . $id)
+                && !is_dir(__DIR__ . '/../../uploads/' . $id)) {
+                throw new \RuntimeException('Error error, uh uh');
+            }
+        }
+
+        // Create the file using the ID that has been retrieved from the request
+        $filename = $this->moveUploadedFile(__DIR__ . '/../../uploads/' . $id, $uploadedImage);
 
         var_dump($filename);
     }

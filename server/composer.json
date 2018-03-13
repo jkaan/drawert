@@ -12,6 +12,7 @@
       "psr-4": {"Drawert\\": "src/"}
     },
     "require": {
-      "slim/slim": "^3.0"
+      "slim/slim": "^3.0",
+        "ramsey/uuid": "^3.7"
     }
 }
