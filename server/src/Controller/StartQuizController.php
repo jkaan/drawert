@@ -41,7 +41,7 @@ class StartQuizController
 
             // Create directory if needed
             if (!file_exists(__DIR__ . '/../../uploads/' . $id)
-                && !mkdir(__DIR__ . '/../../uploads/' . $id)
+                && !mkdir(__DIR__ . '/../../uploads/' . $id, 0777, true)
                 && !is_dir(__DIR__ . '/../../uploads/' . $id)) {
                 throw new \RuntimeException('Error error, uh uh');
             }
