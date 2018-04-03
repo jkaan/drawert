@@ -39,6 +39,7 @@ class StartQuizController
         if (array_key_exists('id', $queryParams) && Uuid::isValid($queryParams['id'])) {
             $id = $queryParams['id'];
 
+            error_log(__DIR__);
             // Create directory if needed
             if (!file_exists(__DIR__ . '/../../uploads/' . $id)
                 && !mkdir(__DIR__ . '/../../uploads/' . $id, 0777, true)
