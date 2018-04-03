@@ -48,9 +48,9 @@ class StartQuizController
         }
 
         // Create the file using the ID that has been retrieved from the request
-        $filename = $this->moveUploadedFile(__DIR__ . '/../../uploads/' . $id, $uploadedImage);
+        $this->moveUploadedFile(__DIR__ . '/../../uploads/' . $id, $uploadedImage);
 
-        var_dump($filename);
+        return $response->withStatus(200);
     }
 
     private function getListOfLogos(): array
