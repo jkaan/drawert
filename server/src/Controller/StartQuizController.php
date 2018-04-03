@@ -39,6 +39,8 @@ class StartQuizController
         if (array_key_exists('id', $queryParams) && Uuid::isValid($queryParams['id'])) {
             $id = $queryParams['id'];
 
+            error_log($queryParams['id']);
+
             error_log(__DIR__);
             // Create directory if needed
             if (!file_exists(__DIR__ . '/../../uploads/' . $id)
@@ -49,7 +51,9 @@ class StartQuizController
         }
 
         // Create the file using the ID that has been retrieved from the request
-        $this->moveUploadedFile(__DIR__ . '/../../uploads/' . $id, $uploadedImage);
+        error_log($this->moveUploadedFile(__DIR__ . '/../../uploads/' . $id, $uploadedImage));
+        error_log(__DIR__ . '/../../uploads/' . $id);
+        error_log((string)is_dir(__DIR__ . '/../../uploads/' . $id));
 
         return $response->withStatus(200);
     }
