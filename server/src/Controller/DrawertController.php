@@ -37,15 +37,17 @@ class DrawertController
 
         $queryParams = $request->getQueryParams();
 
-        if (array_key_exists('id', $queryParams) && Uuid::isValid($queryParams['id'])) {
-            $id = $queryParams['id'];
+        if (!array_key_exists('id', $queryParams) || !Uuid::isValid($queryParams['id'])) {
+            return $response->withStatus(400);
+        }
 
-            // Create directory if needed
-            if (!file_exists(__DIR__ . '/../../public/uploads/' . $id)
-                && !mkdir(__DIR__ . '/../../public/uploads/' . $id, 0777, true)
-                && !is_dir(__DIR__ . '/../../public/uploads/' . $id)) {
-                throw new \RuntimeException('Error error, uh uh');
-            }
+        $id = $queryParams['id'];
+
+        // Create directory if needed
+        if (!file_exists(__DIR__ . '/../../public/uploads/' . $id)
+            && !mkdir(__DIR__ . '/../../public/uploads/' . $id, 0777, true)
+            && !is_dir(__DIR__ . '/../../public/uploads/' . $id)) {
+            throw new \RuntimeException('Error error, uh uh');
         }
 
         // Create the file using the ID that has been retrieved from the request
