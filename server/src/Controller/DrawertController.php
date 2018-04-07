@@ -3,14 +3,25 @@ declare(strict_types=1);
 
 namespace Drawert\Controller;
 
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\FileExistsException;
+use League\Flysystem\Filesystem;
+use League\Flysystem\Plugin\ListFiles;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\Finder\Finder;
+use Slim\Http\UploadedFile;
 
 class DrawertController
 {
     use MoveUploadedFile;
+
+    private $filesystem;
+
+    public function __construct()
+    {
+        $this->filesystem = new Filesystem(new Local(__DIR__ . '/../../public/uploads'));
+    }
 
     public function startQuiz(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
@@ -33,6 +44,7 @@ class DrawertController
     public function uploadDrawnImage(ServerRequestInterface $request, ResponseInterface $response)
     {
         $uploadedFiles = $request->getUploadedFiles();
+        /** @var UploadedFile $uploadedImage */
         $uploadedImage = $uploadedFiles['image'];
 
         $queryParams = $request->getQueryParams();
@@ -43,15 +55,15 @@ class DrawertController
 
         $id = $queryParams['id'];
 
-        // Create directory if needed
-        if (!file_exists(__DIR__ . '/../../public/uploads/' . $id)
-            && !mkdir(__DIR__ . '/../../public/uploads/' . $id, 0777, true)
-            && !is_dir(__DIR__ . '/../../public/uploads/' . $id)) {
-            throw new \RuntimeException('Error error, uh uh');
+        $stream = fopen($uploadedImage->file, 'rb+');
+        $fileName = $this->generateRandomFilename($uploadedImage);
+
+        try {
+            $this->filesystem->writeStream($id . '/' . $fileName, $stream);
+        } catch (FileExistsException $e) {
+            return $response->withStatus(500, 'File exists');
         }
 
-        // Create the file using the ID that has been retrieved from the request
-        $fileName = $this->moveUploadedFile(__DIR__ . '/../../public/uploads/' . $id, $uploadedImage);
         $response->getBody()->write(json_encode(['fileName' => $fileName]));
 
         return $response->withStatus(200);
@@ -61,13 +73,14 @@ class DrawertController
         ServerRequestInterface $request,
         ResponseInterface $response
     ): ResponseInterface {
-        $finder = new Finder();
-        $finder->files()->in(__DIR__ . '/../../public/uploads/');
+        $this->filesystem->addPlugin(new ListFiles());
+
+        $files = $this->filesystem->listFiles('', true);
 
         $fileNames = [];
 
-        foreach ($finder as $file) {
-            $fileNames[] = $file->getPathInfo()->getFilename() . '/' . $file->getFilename();
+        foreach ($files as $file) {
+            $fileNames[] = $file['path'];
         }
 
         $response->getBody()->write(json_encode(['fileNames' => $fileNames]));
