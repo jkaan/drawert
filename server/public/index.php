@@ -5,11 +5,6 @@ use Drawert\Controller\DrawertController;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-error_reporting(E_ALL);
-ini_set("display_errors", '1');
-ini_set("log_errors", '1');
-ini_set("catch_workers_output", "yes");
-
 require __DIR__ . '/../vendor/autoload.php';
 
 $configuration = [
@@ -19,15 +14,6 @@ $configuration = [
 ];
 
 $container = new \Slim\Container($configuration);
-$container['errorHandler'] = function ($c) {
-    return function ($request, $response, $exception) use ($c) {
-        error_log($c);
-
-        return $c['response']->withStatus(500)
-            ->withHeader('Content-Type', 'text/html')
-            ->write('Something went wrong!');
-    };
-};
 $app = new \Slim\App($container);
 
 $app->add(function(RequestInterface $request, ResponseInterface $response, callable $next) {
@@ -37,6 +23,7 @@ $app->add(function(RequestInterface $request, ResponseInterface $response, calla
 });
 
 $app->get('/startQuiz', DrawertController::class . ':startQuiz');
+$app->get('/listDrawnImages', DrawertController::class . ':listImages');
 $app->post('/uploadDrawnImage', DrawertController::class . ':uploadDrawnImage');
 
 $app->run();

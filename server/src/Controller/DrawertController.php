@@ -6,6 +6,7 @@ namespace Drawert\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Finder\Finder;
 
 class DrawertController
 {
@@ -52,6 +53,23 @@ class DrawertController
         $response->getBody()->write(json_encode(['fileName' => $fileName]));
 
         return $response->withStatus(200);
+    }
+
+    public function listImages(
+        ServerRequestInterface $request,
+        ResponseInterface $response
+    ): ResponseInterface {
+        $finder = new Finder();
+        $finder->files()->in(__DIR__ . '/../../uploads/');
+
+        $fileNames = [];
+
+        foreach ($finder as $file) {
+            $fileNames[] = $file->getPathInfo()->getFilename() . '/' . $file->getFilename();
+        }
+
+        $response->getBody()->write(json_encode(['fileNames' => $fileNames]));
+        return $response;
     }
 
     private function getListOfLogos(): array
