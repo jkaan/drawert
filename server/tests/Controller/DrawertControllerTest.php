@@ -9,10 +9,10 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Http\Response;
 
-final class StartQuizControllerTest extends TestCase
+final class DrawertControllerTest extends TestCase
 {
     public function testStartQuizReturnsListOfFiveEntries() {
-        $controller = new StartQuizController();
+        $controller = new DrawertController();
 
         $request = $this->prophesize(ServerRequestInterface::class);
         $returnedResponse = $controller->startQuiz($request->reveal(), new Response());
@@ -23,7 +23,7 @@ final class StartQuizControllerTest extends TestCase
     }
 
     public function testStartQuizReturnsId() {
-        $controller = new StartQuizController();
+        $controller = new DrawertController();
 
         $request = $this->prophesize(ServerRequestInterface::class);
         $returnedResponse = $controller->startQuiz($request->reveal(), new Response());

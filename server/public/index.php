@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use Drawert\Controller\StartQuizController;
+use Drawert\Controller\DrawertController;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -36,7 +36,7 @@ $app->add(function(RequestInterface $request, ResponseInterface $response, calla
     return $response->withHeader('Access-Control-Allow-Origin', '*');
 });
 
-$app->get('/startQuiz', StartQuizController::class . ':startQuiz');
-$app->post('/uploadDrawnImage', StartQuizController::class . ':uploadDrawnImage');
+$app->get('/startQuiz', DrawertController::class . ':startQuiz');
+$app->post('/uploadDrawnImage', DrawertController::class . ':uploadDrawnImage');
 
 $app->run();
