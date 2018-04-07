@@ -41,15 +41,15 @@ class DrawertController
             $id = $queryParams['id'];
 
             // Create directory if needed
-            if (!file_exists(__DIR__ . '/../../uploads/' . $id)
-                && !mkdir(__DIR__ . '/../../uploads/' . $id, 0777, true)
-                && !is_dir(__DIR__ . '/../../uploads/' . $id)) {
+            if (!file_exists(__DIR__ . '/../../public/uploads/' . $id)
+                && !mkdir(__DIR__ . '/../../public/uploads/' . $id, 0777, true)
+                && !is_dir(__DIR__ . '/../../public/uploads/' . $id)) {
                 throw new \RuntimeException('Error error, uh uh');
             }
         }
 
         // Create the file using the ID that has been retrieved from the request
-        $fileName = $this->moveUploadedFile(__DIR__ . '/../../uploads/' . $id, $uploadedImage);
+        $fileName = $this->moveUploadedFile(__DIR__ . '/../../public/uploads/' . $id, $uploadedImage);
         $response->getBody()->write(json_encode(['fileName' => $fileName]));
 
         return $response->withStatus(200);
@@ -60,7 +60,7 @@ class DrawertController
         ResponseInterface $response
     ): ResponseInterface {
         $finder = new Finder();
-        $finder->files()->in(__DIR__ . '/../../uploads/');
+        $finder->files()->in(__DIR__ . '/../../public/uploads/');
 
         $fileNames = [];
 
